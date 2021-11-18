@@ -1,14 +1,12 @@
 package main // import "hello-heroku"
 
 import (
-	"crypto/tls"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/labstack/echo/v4"
-	"golang.org/x/crypto/acme"
-	"golang.org/x/crypto/acme/autocert"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func hello(c echo.Context) error {
@@ -33,26 +31,28 @@ func main() {
 	}
 
 	e := echo.New()
+	e.Use(middleware.Recover())
+	e.Use(middleware.Logger())
 	e.HideBanner = true
 
-	autoTLSManager := autocert.Manager{
-		Prompt: autocert.AcceptTOS,
-		Cache:  autocert.DirCache("./.cache"),
-	}
+	// autoTLSManager := autocert.Manager{
+	// 	Prompt: autocert.AcceptTOS,
+	// 	Cache:  autocert.DirCache("./cache"),
+	// }
 
-	s := http.Server{
-		Addr:    ":" + port,
-		Handler: e,
-		TLSConfig: &tls.Config{
-			GetCertificate: autoTLSManager.GetCertificate,
-			NextProtos:     []string{acme.ALPNProto},
-		},
-	}
+	// s := http.Server{
+	// 	Addr:    ":" + port,
+	// 	Handler: e,
+	// 	TLSConfig: &tls.Config{
+	// 		GetCertificate: autoTLSManager.GetCertificate,
+	// 		NextProtos:     []string{acme.ALPNProto},
+	// 	},
+	// }
 
 	e.GET("/", hello)
 	e.GET("/health", healthCheck)
 	e.GET("/datetime", showDateTime)
 	go e.Logger.Fatal(e.Start(":" + port))
 
-	e.Logger.Fatal(s.ListenAndServeTLS("", ""))
+	// e.Logger.Fatal(s.ListenAndServeTLS("", ""))
 }
