@@ -52,7 +52,7 @@ func main() {
 	e.GET("/", hello)
 	e.GET("/health", healthCheck)
 	e.GET("/datetime", showDateTime)
-	go e.Logger.Fatal(e.Start(":" + port))
+	e.Logger.Fatal(e.Start(":" + port))
 
 	// e.Logger.Fatal(s.ListenAndServeTLS("", ""))
 }
