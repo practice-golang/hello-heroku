@@ -1,11 +1,14 @@
 package main // import "hello-heroku"
 
 import (
+	"crypto/tls"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"golang.org/x/crypto/acme"
+	"golang.org/x/crypto/acme/autocert"
 )
 
 func hello(c echo.Context) error {
@@ -32,8 +35,24 @@ func main() {
 	e := echo.New()
 	e.HideBanner = true
 
+	autoTLSManager := autocert.Manager{
+		Prompt: autocert.AcceptTOS,
+		Cache:  autocert.DirCache("./.cache"),
+	}
+
+	s := http.Server{
+		Addr:    ":" + port,
+		Handler: e,
+		TLSConfig: &tls.Config{
+			GetCertificate: autoTLSManager.GetCertificate,
+			NextProtos:     []string{acme.ALPNProto},
+		},
+	}
+
 	e.GET("/", hello)
 	e.GET("/health", healthCheck)
 	e.GET("/datetime", showDateTime)
-	e.Logger.Fatal(e.Start(":" + port))
+	go e.Logger.Fatal(e.Start(":" + port))
+
+	e.Logger.Fatal(s.ListenAndServeTLS("", ""))
 }
