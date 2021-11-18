@@ -67,6 +67,16 @@ func dbHealth(c echo.Context, db *sql.DB) error {
 	return c.String(http.StatusOK, msg)
 }
 
+func tableClear(c echo.Context, db *sql.DB) error {
+	var msg string
+	if _, err := db.Exec("TRUNCATE ticks"); err != nil {
+		msg = fmt.Sprintf("Error incrementing tick: %q", err)
+		return c.String(http.StatusInternalServerError, msg)
+	}
+
+	return c.String(http.StatusOK, "done")
+}
+
 func main() {
 	port := os.Getenv("PORT")
 
@@ -93,7 +103,11 @@ func main() {
 	dbHandler := func(c echo.Context) error {
 		return dbHealth(c, db)
 	}
+	tableClear := func(c echo.Context) error {
+		return tableClear(c, db)
+	}
 	e.GET("/db", dbHandler)
+	e.GET("/table-clear", tableClear)
 
 	e.Logger.Fatal(e.Start(":" + port))
 }
