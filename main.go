@@ -31,31 +31,37 @@ func showAllEnv(c echo.Context) error {
 }
 
 func dbFunc(c echo.Context, db *sql.DB) error {
+	var msg string
+
 	if _, err := db.Exec("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)"); err != nil {
-		msg := fmt.Sprintf("Error creating database table: %q", err)
+		msg = fmt.Sprintf("Error creating database table: %q", err)
 		return c.String(http.StatusInternalServerError, msg)
 	}
 
 	if _, err := db.Exec("INSERT INTO ticks VALUES (now())"); err != nil {
-		msg := fmt.Sprintf("Error incrementing tick: %q", err)
+		msg = fmt.Sprintf("Error incrementing tick: %q", err)
 		return c.String(http.StatusInternalServerError, msg)
 	}
 
 	rows, err := db.Query("SELECT tick FROM ticks")
 	if err != nil {
-		msg := fmt.Sprintf("Error reading ticks: %q", err)
+		msg = fmt.Sprintf("Error reading ticks: %q", err)
 		return c.String(http.StatusInternalServerError, msg)
 	}
 
 	defer rows.Close()
+
 	for rows.Next() {
 		var tick time.Time
 		if err := rows.Scan(&tick); err != nil {
-			msg := fmt.Sprintf("Error scanning ticks: %q", err)
+			msg = fmt.Sprintf("Error scanning ticks: %q", err)
 			return c.String(http.StatusInternalServerError, msg)
 		}
-		c.String(http.StatusOK, fmt.Sprintf("Read from DB: %s\n", tick.String()))
+
+		msg = fmt.Sprintf("Read from DB: %s\n", tick.String())
 	}
+
+	return c.String(http.StatusOK, msg)
 }
 
 func main() {
