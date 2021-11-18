@@ -44,8 +44,9 @@
     * 추가: `heroku certs:add server.crt server.key`
     * 갱신: `heroku certs:update --name=[App 이름] server.crt server.key`
     * https://devcenter.heroku.com/articles/ssl#manually-upload-certificates
-* Postgres 추가:
+* Postgres:
     * `heroku addons:create heroku-postgresql:hobby-dev`
     * `heroku config`
     * `heroku pg`
+    * `heroku pg:psql`
     * https://devcenter.heroku.com/articles/getting-started-with-go#use-a-database
