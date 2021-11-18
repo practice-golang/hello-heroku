@@ -22,6 +22,11 @@ func showDateTime(c echo.Context) error {
 	return c.String(http.StatusOK, now)
 }
 
+func showAllEnv(c echo.Context) error {
+	envs := os.Environ()
+	return c.JSON(http.StatusOK, envs)
+}
+
 func main() {
 	port := os.Getenv("PORT")
 
@@ -32,11 +37,13 @@ func main() {
 
 	e := echo.New()
 	e.Use(middleware.Recover())
-	e.Use(middleware.Logger())
+	// e.Use(middleware.Logger())
 	e.HideBanner = true
 
 	e.GET("/", hello)
 	e.GET("/health", healthCheck)
 	e.GET("/datetime", showDateTime)
+	e.GET("/env", showAllEnv)
+
 	e.Logger.Fatal(e.Start(":" + port))
 }
