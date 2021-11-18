@@ -39,6 +39,7 @@
 ## 기타
 * 로그: `heroku logs`
 * 커맨드: `heroku run [명령]`
+* DB 추가: https://devcenter.heroku.com/articles/getting-started-with-go#use-a-database
 * 도메인 추가: `heroku domains:add [도메인]`
 * TLS 수동으로 추가
     * 추가: `heroku certs:add server.crt server.key`
