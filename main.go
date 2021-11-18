@@ -32,7 +32,7 @@ func showAllEnv(c echo.Context) error {
 	return c.JSON(http.StatusOK, envs)
 }
 
-func dbFunc(c echo.Context, db *sql.DB) error {
+func dbHealth(c echo.Context, db *sql.DB) error {
 	var msg string
 
 	if _, err := db.Exec("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)"); err != nil {
@@ -53,10 +53,11 @@ func dbFunc(c echo.Context, db *sql.DB) error {
 
 	defer rows.Close()
 
+	msg = ""
 	for rows.Next() {
 		var tick time.Time
 		if err := rows.Scan(&tick); err != nil {
-			msg = fmt.Sprintf("Error scanning ticks: %q", err)
+			msg += fmt.Sprintf("Error scanning ticks: %q", err)
 			return c.String(http.StatusInternalServerError, msg)
 		}
 
@@ -90,7 +91,7 @@ func main() {
 	}
 
 	dbHandler := func(c echo.Context) error {
-		return dbFunc(c, db)
+		return dbHealth(c, db)
 	}
 	e.GET("/db", dbHandler)
 
