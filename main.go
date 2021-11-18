@@ -57,11 +57,11 @@ func dbHealth(c echo.Context, db *sql.DB) error {
 	for rows.Next() {
 		var tick time.Time
 		if err := rows.Scan(&tick); err != nil {
-			msg += fmt.Sprintf("Error scanning ticks: %q", err)
+			msg = fmt.Sprintf("Error scanning ticks: %q", err)
 			return c.String(http.StatusInternalServerError, msg)
 		}
 
-		msg = fmt.Sprintf("Read from DB: %s\n", tick.String())
+		msg += fmt.Sprintf("Read from DB: %s\n", tick.String())
 	}
 
 	return c.String(http.StatusOK, msg)
