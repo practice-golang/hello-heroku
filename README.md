@@ -1,7 +1,7 @@
 # Heroku 찍먹
 
 ## 로그인 - 브라우저 안거치고
-* heroku login -i
+* `heroku login -i`
 
 ## 저장소 초기화
 * `git init`
