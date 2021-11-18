@@ -1,5 +1,9 @@
 # Heroku 찍먹
 
+## Heroku CLI 설치
+* `npm install -g heroku`
+* `heroku --version`
+
 ## 로그인 - 브라우저 안거치고
 * `heroku login -i`
 
@@ -11,12 +15,13 @@
 
 ## 커밋
 * `git add .`
-* `git commit -m "수정"`
+* `git commit -am "수정"`
 
 ## 히로쿠 연결
 * Git push용 remote 분기명: `heroku`
 * App 생성: `heroku create`
 * 기존 App 연결: `git remote add heroku git@heroku.com:[App 이름].git`
+* 기존 App 풀: `heroku git:clone -a [App 이름]`
 
 ## 배포
 * `git push heroku main`
@@ -30,3 +35,12 @@
 ## 배포된 사이트 확인
 * 배포 결과에 나오는 경로로 이동하거나 아래 명령 사용
 * `heroku open`
+
+## 기타
+* 로그: `heroku logs`
+* 커맨드: `heroku run [명령]`
+* 도메인 추가: `heroku domains:add [도메인]`
+* TLS 수동으로 추가
+    * 추가: `heroku certs:add server.crt server.key`
+    * 갱신: `heroku certs:update --name=[App 이름] server.crt server.key`
+    * https://devcenter.heroku.com/articles/ssl#manually-upload-certificates
