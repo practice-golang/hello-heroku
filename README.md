@@ -23,6 +23,10 @@
     * ~~주 분기가 `master`이면 `git push heroku master:main`~~
     * `Racism(인종차별)`문제 때문에 `master(주인님)`을 안쓰는 거 같다. 헷갈리지만 시키는대로 해야지
 
+## 트러블 슈팅
+* `! [rejected] main -> main (non-fast-forward)` 오류 발생시
+    * `git push heroku +main`
+
 ## 배포된 사이트 확인
 * 배포 결과에 나오는 경로로 이동하거나 아래 명령 사용
 * `heroku open`
