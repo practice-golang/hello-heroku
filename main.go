@@ -35,24 +35,8 @@ func main() {
 	e.Use(middleware.Logger())
 	e.HideBanner = true
 
-	// autoTLSManager := autocert.Manager{
-	// 	Prompt: autocert.AcceptTOS,
-	// 	Cache:  autocert.DirCache("./cache"),
-	// }
-
-	// s := http.Server{
-	// 	Addr:    ":" + port,
-	// 	Handler: e,
-	// 	TLSConfig: &tls.Config{
-	// 		GetCertificate: autoTLSManager.GetCertificate,
-	// 		NextProtos:     []string{acme.ALPNProto},
-	// 	},
-	// }
-
 	e.GET("/", hello)
 	e.GET("/health", healthCheck)
 	e.GET("/datetime", showDateTime)
 	e.Logger.Fatal(e.Start(":" + port))
-
-	// e.Logger.Fatal(s.ListenAndServeTLS("", ""))
 }
