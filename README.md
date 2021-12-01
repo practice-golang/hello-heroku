@@ -39,7 +39,9 @@
 ## 기타
 * 기본 환경변수
     * `PORT` - 히로쿠 제어판에서는 보이지 않는다
-* 로그: `heroku logs`
+* 로그:
+    * `heroku logs`
+    * `heroku logs --tail`
 * 커맨드: `heroku run [명령]`
 * 도메인 추가: `heroku domains:add [도메인]`
 * TLS 수동으로 추가
