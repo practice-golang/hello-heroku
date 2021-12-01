@@ -4,7 +4,9 @@ build:
 push:
 	git push heroku main
 
-deploy:
+commit:
 	git add .
 	git commit -m "deploy"
-	push
+
+
+deploy: commit push
