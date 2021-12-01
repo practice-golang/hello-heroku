@@ -8,5 +8,4 @@ commit:
 	git add .
 	git commit -m "deploy"
 
-
 deploy: commit push
