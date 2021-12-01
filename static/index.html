@@ -5,6 +5,19 @@
 <body>
     <p>Hello heroku!!</p>
     <p>This is embed HTML</p>
+    <button onclick="sayHello()">Say hello</button>
+    <div id="say-container"></div>
 </body>
+
+<script>
+    async function sayHello() {
+        const r = await fetch("/hello")
+
+        if (r.ok) {
+            const say = document.getElementById("say-container")
+            say.innerText = await say.text()
+        }
+    }
+</script>
 
 </html>
