@@ -2,6 +2,7 @@ package main // import "hello-heroku"
 
 import (
 	"database/sql"
+	"embed"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,6 +13,11 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	_ "github.com/lib/pq"
+)
+
+var (
+	//go:embed static
+	content embed.FS
 )
 
 func hello(c echo.Context) error {
@@ -90,7 +96,11 @@ func main() {
 	e.Use(middleware.Logger())
 	e.HideBanner = true
 
-	e.GET("/", hello)
+	contentHandler := echo.WrapHandler(http.FileServer(http.FS(content)))
+	contentRewrite := middleware.Rewrite(map[string]string{"/*": "/static/$1"})
+
+	e.GET("/*", contentHandler, contentRewrite)
+	e.GET("/hello", hello)
 	e.GET("/health", healthCheck)
 	e.GET("/datetime", showDateTime)
 	e.GET("/env", showAllEnv)
