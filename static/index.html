@@ -15,7 +15,7 @@
 
         if (r.ok) {
             const say = document.getElementById("say-container")
-            const t = await say.text()
+            const t = await r.text()
             console.log(t)
             say.innerText = t
         }
