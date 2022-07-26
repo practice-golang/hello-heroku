@@ -57,3 +57,9 @@
 * Kaffein:
     * 히로쿠 계속 깨우기
     * http://kaffeine.herokuapp.com
+* Stack upgrade:
+```sh
+$ heroku stack:set heroku-22
+$ git commit --allow-empty -m "Upgrade to heroku-22"
+$ git push heroku main
+```
