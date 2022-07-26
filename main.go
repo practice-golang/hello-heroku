@@ -21,7 +21,7 @@ var (
 )
 
 func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello world!")
+	return c.String(http.StatusOK, "Hello world!!")
 }
 
 func healthCheck(c echo.Context) error {
